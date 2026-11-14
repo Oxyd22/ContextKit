@@ -1,0 +1,7 @@
+# ContextKit V2 — generated and local artifacts
+.claude/contextkit/cache/references/*.md
+.claude/contextkit/cache/.last-*
+.claude/contextkit/.installed.json
+__pycache__/
+*.pyc
+.DS_Store

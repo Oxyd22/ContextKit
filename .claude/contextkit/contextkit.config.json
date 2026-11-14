@@ -1,0 +1,14 @@
+{
+  "platform": "generic",
+  "references": {
+    "path": "../references",
+    "repos": []
+  },
+  "knowledge": {
+    "path": "../project-knowledge"
+  },
+  "indexScope": ["contracts", "api-specs", "parity"],
+  "ticketPattern": "[A-Z][A-Z0-9]+-\\d+",
+  "checkMaxAgeDays": 7,
+  "refreshMaxAgeDays": 14
+}

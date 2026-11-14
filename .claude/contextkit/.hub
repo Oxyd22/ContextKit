@@ -1,0 +1,4 @@
+This folder is the ContextKit HUB (blueprint source).
+From here: /ck-setup (install) and /ck-migrate (update).
+This marker is NEVER copied into a target project -
+so the installed copy is not a hub.
