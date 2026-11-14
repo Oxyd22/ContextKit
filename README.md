@@ -1,6 +1,22 @@
 # ContextKit
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python >= 3.9](https://img.shields.io/badge/python-%E2%89%A53.9-blue.svg)](#requirements)
+
 A **second brain for a code project**. The model (Claude Code) keeps it: decisions and notes stay in small Markdown files, and reference repos are condensed so the model looks them up.
+
+## Table of contents
+
+- [Why](#why)
+- [Features](#features)
+- [Quickstart](#quickstart)
+- [Requirements](#requirements)
+- [Installation / Update / Uninstall](#installation--update--uninstall)
+- [Commands](#commands)
+- [Config reference](#config-reference)
+- [Xcode integration (platform=ios)](#xcode-integration-platformios)
+- [Running the tests](#running-the-tests)
+- [License](#license)
 
 ## Why
 
@@ -12,6 +28,25 @@ Without a fixed place, the model forgets *why* something was built and re-reads 
 Everything is Markdown the model reads and writes. No server, no database. Install is **fully local**: nothing is committed to the team repo.
 
 > Inspired by Andrej Karpathy's [LLM wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): keep a persistent, growing wiki, compile knowledge once, and maintain it, in the spirit of "write to disk, not to context" (`INDEX.md`, an append-only `LOG.md`, and a separate git repo for the knowledge base). ContextKit is that idea applied to a code project.
+
+## Features
+
+- **Knowledge and decisions**: small Markdown entries, each with a one-sentence `summary`. The model reads one generated `INDEX.md` and already knows earlier decisions before it makes a new one.
+- **References**: other repos (read-only) are condensed to contracts, API specs, and parity (`repo@sha`). The model looks up the index instead of re-reading the repo.
+- **SessionStart hook**: at the start of a Claude Code session, the hook can read a ticket id from the current branch name and point at the matching note. Where a knowledge folder or reference repos are configured, it also reminds you when `/ck-doctor` or `/ck-refs-sync` is overdue.
+- **`/ck-*` skills**: seven in total. In the project: `/ck-read-note`, `/ck-create-note`, `/ck-doctor`, `/ck-refs-lookup`, `/ck-refs-sync`. `/ck-setup` installs from the hub and reconfigures inside a project. `/ck-migrate` updates a project from the hub.
+- **Platform key**: `generic` (default), `ios`, `android`, or `web`. It shapes the parity heading in the reference index. The Xcode project check runs only when the platform is `ios`.
+- **Local and dependency-free**: no server, no database, Python standard library only. Nothing is committed to the team repo.
+
+## Quickstart
+
+1. Put the ContextKit hub folder next to your project (see the layout under [Installation](#installation--update--uninstall)).
+2. Start a Claude Code session **on the hub** and run `/ck-setup`. It asks for the project path, the platform, the skill location, the reference repos, the knowledge folder, and the ticket pattern.
+3. From then on, work **in the project**. Build the first reference index with `/ck-refs-sync`.
+
+Requirements: Python >= 3.9 (standard library only), git, Claude Code, and macOS or Linux. On Windows, use WSL or Git Bash.
+
+> **Claude Code only: the SessionStart hook.** The hook that reads the branch ticket and shows hygiene reminders runs only in Claude Code. Xcode imports the skills but not the hook (see [Xcode integration](#xcode-integration-platformios)); run `/ck-doctor` there instead.
 
 ## Requirements
 
